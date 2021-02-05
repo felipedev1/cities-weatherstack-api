@@ -22,9 +22,13 @@ namespace cities_weatherstack_api.Controllers
 
         // GET: api/Cities
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<City>>> GetCities()
+        public async Task<ActionResult<IEnumerable<City>>> GetCities(string query)
         {
-            return await _context.Cities.ToListAsync();
+            var cities = await _context.Cities
+                .Where(c => c.CityName.Contains(query))
+                .ToListAsync();
+
+            return cities;
         }
 
         // GET: api/Cities/5
