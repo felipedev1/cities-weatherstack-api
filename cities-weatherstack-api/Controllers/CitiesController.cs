@@ -55,7 +55,7 @@ namespace cities_weatherstack_api.Controllers
                 return BadRequest();
             }
 
-            if (CityExists(city.CityName, city.Country))
+            if (CityExists(city.CityName, city.Country, city.Region))
             {
                 return NoContent();
             }
@@ -86,7 +86,7 @@ namespace cities_weatherstack_api.Controllers
         [HttpPost]
         public async Task<ActionResult<City>> PostCity(City city)
         {
-            if(CityExists(city.CityName, city.Country))
+            if(CityExists(city.CityName, city.Country, city.Region))
             {
                 return NoContent();
             }
@@ -113,9 +113,13 @@ namespace cities_weatherstack_api.Controllers
             return NoContent();
         }
 
-        private bool CityExists(string cityName, string country)
+        private bool CityExists(string cityName, string country, string region)
         {
-            return _context.Cities.Any(e => (e.CityName == cityName) && (e.Country == country));
+            return _context.Cities.Any(e => 
+                (e.CityName == cityName) && 
+                (e.Country == country) && 
+                (e.Region == region)
+            );
         }
     }
 }
