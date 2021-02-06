@@ -55,6 +55,11 @@ namespace cities_weatherstack_api.Controllers
                 return BadRequest();
             }
 
+            if (CityExists(city.CityName, city.Country))
+            {
+                return NoContent();
+            }
+
             _context.Entry(city).State = EntityState.Modified;
 
             try
@@ -63,7 +68,7 @@ namespace cities_weatherstack_api.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CityExists(id))
+                if (!_context.Cities.Any(e => e.Id == id))
                 {
                     return NotFound();
                 }
@@ -81,6 +86,11 @@ namespace cities_weatherstack_api.Controllers
         [HttpPost]
         public async Task<ActionResult<City>> PostCity(City city)
         {
+            if(CityExists(city.CityName, city.Country))
+            {
+                return NoContent();
+            }
+
             _context.Cities.Add(city);
             await _context.SaveChangesAsync();
 
@@ -103,9 +113,9 @@ namespace cities_weatherstack_api.Controllers
             return NoContent();
         }
 
-        private bool CityExists(int id)
+        private bool CityExists(string cityName, string country)
         {
-            return _context.Cities.Any(e => e.Id == id);
+            return _context.Cities.Any(e => (e.CityName == cityName) && (e.Country == country));
         }
     }
 }
