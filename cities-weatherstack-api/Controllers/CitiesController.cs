@@ -25,7 +25,9 @@ namespace cities_weatherstack_api.Controllers
         public async Task<ActionResult<IEnumerable<City>>> GetCities(string query)
         {
             var cities = await _context.Cities
-                .Where(c => c.CityName.Contains(query))
+                .Where(c => c.CityName.StartsWith(query))
+                .OrderBy(c => c.CityName)
+                .Take(5)
                 .ToListAsync();
 
             return cities;
