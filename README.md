@@ -66,7 +66,7 @@ To create the local database you will need to do the following steps:
 
   * **URL**
 
-    /cities/api
+    /api/cities
 
   * **Method:**
 
@@ -91,7 +91,7 @@ To create the local database you will need to do the following steps:
 
   * **URL**
 
-    /cities/api
+    /api/cities
 
   * **Method:**
 
